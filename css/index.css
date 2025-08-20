@@ -1,4 +1,4 @@
- * {
+     * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -34,6 +34,18 @@
             max-width: 800px;
             margin: 0 auto;
             line-height: 1.6;
+        }
+
+        .main-nav .nav-link {
+            font-size: 1.4em;      /* aumenta o tamanho */
+            color: #fff;           /* cor branca */
+            text-decoration: none; /* remove sublinhado */
+            font-weight: bold;     /* opcional: deixa em negrito */
+            padding: 8px 16px;     /* opcional: aumenta área clicável */
+            background: transparent; /* mantém fundo transparente */
+        }
+        .main-nav .nav-link:hover {
+            text-decoration: underline; /* opcional: efeito ao passar o mouse */
         }
         
         .pricing-info {
