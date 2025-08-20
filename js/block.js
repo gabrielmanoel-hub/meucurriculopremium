@@ -40,3 +40,4 @@
             const previewContent = document.querySelector('.preview-content');
             const actionButton = document.querySelector('.action-buttons');
             const watermark = document.querySelector('.watermark');
+        })
