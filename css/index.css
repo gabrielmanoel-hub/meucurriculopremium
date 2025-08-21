@@ -1,4 +1,4 @@
-     * {
+ * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -34,27 +34,6 @@
             max-width: 800px;
             margin: 0 auto;
             line-height: 1.6;
-        }
-
-        .main-nav .nav-link {
-            font-size: 1.4em;      /* aumenta o tamanho */
-            color: #fff;           /* cor branca */
-            text-decoration: none; /* remove sublinhado */
-            font-weight: bold;     /* opcional: deixa em negrito */
-            padding: 8px 16px;     /* opcional: aumenta área clicável */
-            background: transparent; /* mantém fundo transparente */
-        }
-        .main-nav .nav-link:hover {
-            text-decoration: underline; /* opcional: efeito ao passar o mouse */
-        }
-        
-        .pricing-info {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px auto;
-            max-width: 800px;
-            backdrop-filter: blur(10px);
         }
         
         .models-container {
@@ -241,6 +220,54 @@
         .preview-line:nth-child(3) { top: 80px; }
         .preview-line:nth-child(4) { top: 100px; width: 60%; }
         .preview-line:nth-child(5) { top: 130px; width: 80%; }
+        
+        .feedback-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feedback-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .feedback-form input,
+        .feedback-form textarea {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .feedback-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .feedback-form button {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .feedback-form button:hover {
+            background: #5a0fb8;
+        }
         
         footer {
             text-align: center;

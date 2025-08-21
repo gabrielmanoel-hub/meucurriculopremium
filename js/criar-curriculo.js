@@ -1,6 +1,71 @@
   // Variáveis globais
         let currentSection = 'section-model';
         let selectedModel = 'classic';
+
+  //==================================================================================
+       // Verificar o parâmetro do modelo na URL
+        function getModelFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('modelo');
+        }
+
+        // Selecionar o modelo baseado no parâmetro da URL
+        function selectModelFromURL() {
+            const modelo = getModelFromURL();
+            if (modelo) {
+                const modelOption = document.querySelector(`.model-option[data-model="${modelo}"]`);
+                if (modelOption) {
+                    modelOption.click();
+                    
+                    // Rolar até a seção de seleção de modelo
+                    document.getElementById('section-model').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    
+                    // Destacar visualmente o modelo selecionado
+                    highlightSelectedModel(modelOption);
+                }
+            }
+        }
+
+        // Destacar visualmente o modelo selecionado
+        function highlightSelectedModel(modelElement) {
+            modelElement.style.transform = 'scale(1.05)';
+            modelElement.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.2)';
+            
+            setTimeout(() => {
+                modelElement.style.transform = '';
+                modelElement.style.boxShadow = '';
+            }, 2000);
+        }
+
+        // Executar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar os eventos de clique para os modelos
+            document.querySelectorAll('.model-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    selectedModel = this.getAttribute('data-model');
+                    updateModelSelection(this);
+                });
+            });
+            
+            // Processar parâmetro da URL
+            selectModelFromURL();
+        });
+
+        // Atualizar a seleção visual do modelo
+        function updateModelSelection(selectedOption) {
+            // Remover seleção de todos os modelos
+            document.querySelectorAll('.model-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Adicionar seleção ao modelo clicado
+            selectedOption.classList.add('selected');
+        }
+
+    //================================================================================
         
         // Navegação entre seções
         function nextSection(current, next) {
