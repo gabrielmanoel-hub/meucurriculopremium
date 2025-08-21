@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Currículo - MeuCurriculoPremium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/criar-curriculo.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Criar Seu Currículo</h1>
+            <p>Preencha o formulário abaixo para gerar um currículo profissional em minutos</p>
+        </header>
+        
+        <div class="form-container">
+            <div class="progress-bar">
+                <div class="progress-step completed">1</div>
+                <div class="progress-step active">2</div>
+                <div class="progress-step">3</div>
+                <div class="progress-step">4</div>
+                <div class="progress-step">5</div>
+            </div>
+            
+            <!-- Seção 1: Seleção de Modelo -->
+            <div class="form-section active" id="section-model">
+                <h2 class="section-title">Escolha o Modelo do Seu Currículo</h2>
+                
+                <div class="model-selector">
+                    <div class="model-option selected" data-model="classic">
+                        <i class="fas fa-file-alt fa-3x" style="color: #8e9eab;"></i>
+                        <h3>Clássico</h3>
+                        <p>Tradicional e profissional</p>
+                        <div class="model-price free-price">Grátis</div>
+                    </div>
+                    
+                    <div class="model-option" data-model="modern">
+                        <i class="fas fa-file-code fa-3x" style="color: #667eea;"></i>
+                        <h3>Moderno</h3>
+                        <p>Design atual e elegante</p>
+                        <div class="model-price premium-price">R$ 7,90</div>
+                    </div>
+                    
+                    <div class="model-option" data-model="creative">
+                        <i class="fas fa-paint-brush fa-3x" style="color: #ff758c;"></i>
+                        <h3>Criativo</h3>
+                        <p>Ideal para áreas criativas</p>
+                        <div class="model-price premium-price">R$ 9,90</div>
+                    </div>
+                    
+                    <div class="model-option" data-model="executive">
+                        <i class="fas fa-briefcase fa-3x" style="color: #2c3e50;"></i>
+                        <h3>Executivo</h3>
+                        <p>Para cargos de liderança</p>
+                        <div class="model-price premium-price">R$ 14,90</div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="index.html" class="btn btn-prev"><i class="fas fa-arrow-left"></i> Voltar</a>
+                    <button class="btn btn-next" onclick="nextSection('section-model', 'section-personal')">
+                        Próximo <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Seção 2: Dados Pessoais -->
+            <div class="form-section" id="section-personal">
+                <h2 class="section-title">Dados Pessoais</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo *</label>
+                        <input type="text" id="nome" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cargo">Cargo/Profissão *</label>
+                        <input type="text" id="cargo" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">E-mail *</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefone">Telefone *</label>
+                        <input type="tel" id="telefone" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco" class="form-control">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn</label>
+                        <input type="url" id="linkedin" class="form-control" placeholder="https://linkedin.com/in/seu-perfil">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="website">Website/Portfólio</label>
+                        <input type="url" id="website" class="form-control" placeholder="https://seusite.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resumo">Resumo Profissional *</label>
+                    <textarea id="resumo" class="form-control" required placeholder="Breve descrição sobre sua experiência e objetivos profissionais"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-prev" onclick="prevSection('section-personal', 'section-model')">
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    <button class="btn btn-next" onclick="nextSection('section-personal', 'section-experience')">
+                        Próximo <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Seção 3: Experiência Profissional -->
+            <div class="form-section" id="section-experience">
+                <h2 class="section-title">Experiência Profissional</h2>
+                
+                <div id="experiencia-container">
+                    <div class="item-card">
+                        <button class="remove-btn" onclick="removeItem(this)"><i class="fas fa-times"></i></button>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Cargo *</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Empresa *</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Data de Início *</label>
+                                <input type="month" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Data de Término</label>
+                                <input type="month" class="form-control">
+                                <small style="color:#666;">Deixe em branco se for o emprego atual</small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Descrição das Atividades *</label>
+                            <textarea class="form-control" required placeholder="Principais responsabilidades e conquistas"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="add-btn" onclick="addExperiencia()">
+                    <i class="fas fa-plus"></i> Adicionar Experiência
+                </button>
+                
+                <div class="form-actions">
+                    <button class="btn btn-prev" onclick="prevSection('section-experience', 'section-personal')">
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    <button class="btn btn-next" onclick="nextSection('section-experience', 'section-education')">
+                        Próximo <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Seção 4: Formação Acadêmica -->
+            <div class="form-section" id="section-education">
+                <h2 class="section-title">Formação Acadêmica</h2>
+                
+                <div id="formacao-container">
+                    <div class="item-card">
+                        <button class="remove-btn" onclick="removeItem(this)"><i class="fas fa-times"></i></button>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Curso *</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Instituição *</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Data de Início *</label>
+                                <input type="month" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Data de Conclusão *</label>
+                                <input type="month" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Descrição (opcional)</label>
+                            <textarea class="form-control" placeholder="Detalhes relevantes do curso"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="add-btn" onclick="addFormacao()">
+                    <i class="fas fa-plus"></i> Adicionar Formação
+                </button>
+                
+                <div class="form-actions">
+                    <button class="btn btn-prev" onclick="prevSection('section-education', 'section-experience')">
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    <button class="btn btn-next" onclick="nextSection('section-education', 'section-skills')">
+                        Próximo <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Seção 5: Habilidades e Idiomas -->
+            <div class="form-section" id="section-skills">
+                <h2 class="section-title">Habilidades e Idiomas</h2>
+                
+                <div class="form-group">
+                    <label for="habilidades">Habilidades Técnicas *</label>
+                    <textarea id="habilidades" class="form-control" required placeholder="Liste suas principais habilidades separadas por vírgula. Ex: Photoshop, Excel Avançado, JavaScript"></textarea>
+                </div>
+                
+                <h3 style="margin: 20px 0 15px; color: #2c3e50;">Idiomas</h3>
+                
+                <div id="idiomas-container">
+                    <div class="item-card">
+                        <button class="remove-btn" onclick="removeItem(this)"><i class="fas fa-times"></i></button>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Idioma *</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Nível de Proficiência *</label>
+                                <select class="form-control" required>
+                                    <option value="">Selecione o nível</option>
+                                    <option value="Nativo">Nativo</option>
+                                    <option value="Fluente">Fluente</option>
+                                    <option value="Avançado">Avançado</option>
+                                    <option value="Intermediário">Intermediário</option>
+                                    <option value="Básico">Básico</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="add-btn" onclick="addIdioma()">
+                    <i class="fas fa-plus"></i> Adicionar Idioma
+                </button>
+                
+                <div class="form-actions">
+                    <button class="btn btn-prev" onclick="prevSection('section-skills', 'section-education')">
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    <button class="btn btn-submit" onclick="submitForm()">
+                        <i class="fas fa-check"></i> Gerar Currículo
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 MeuCurriculoPremium.com - Todos os direitos reservados</p>
+            <p><a href="politica-privacidade.html" style="color: white;">Política de Privacidade</a></p>
+        </footer>
+    </div>
+
+   <script src="js/criar-curriculo.js"></script>
+</body>
+</html>
