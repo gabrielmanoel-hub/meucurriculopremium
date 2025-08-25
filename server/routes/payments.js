@@ -1,5 +1,5 @@
 const express = require('express');
-const mercadopago = require('mercadopago');
+const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 const auth = require('../middleware/auth');
 const Purchase = require('../models/Purchase');
 const User = require('../models/User');
@@ -7,12 +7,22 @@ const User = require('../models/User');
 const router = express.Router();
 
 // Configurar Mercado Pago
-mercadopago.configure({
-  access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
-});
+let client;
+try {
+  client = new MercadoPagoConfig({ 
+    accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN 
+  });
+  console.log('MercadoPago configurado com sucesso');
+} catch (error) {
+  console.error('Erro ao configurar MercadoPago:', error);
+}
 
 // Criar preferência de pagamento
 router.post('/create-preference', auth, async (req, res) => {
+  if (!client) {
+    return res.status(500).send('MercadoPago não configurado');
+  }
+
   const { modelo, valor } = req.body;
 
   try {
@@ -32,12 +42,12 @@ router.post('/create-preference', auth, async (req, res) => {
         pending: `${process.env.FRONTEND_URL}/pagamento-pendente`
       },
       auto_return: 'approved',
-      notification_url: `${process.env.FRONTEND_URL}/api/payments/webhook`,
     };
 
     // Cria a preferência
-    const response = await mercadopago.preferences.create(preference);
-    const preferenceId = response.body.id;
+    const preferenceClient = new Preference(client);
+    const response = await preferenceClient.create({ body: preference });
+    const preferenceId = response.id;
 
     // Salvar a compra no banco de dados com status 'pending'
     const newPurchase = new Purchase({
@@ -50,15 +60,22 @@ router.post('/create-preference', auth, async (req, res) => {
 
     await newPurchase.save();
 
-    res.json({ id: preferenceId, init_point: response.body.init_point });
+    res.json({ 
+      id: preferenceId, 
+      init_point: response.init_point 
+    });
   } catch (error) {
-    console.error(error);
+    console.error('Erro ao criar preferência:', error);
     res.status(500).send('Erro ao criar preferência de pagamento');
   }
 });
 
 // Webhook para receber notificações de pagamento
 router.post('/webhook', async (req, res) => {
+  if (!client) {
+    return res.status(500).send('MercadoPago não configurado');
+  }
+
   const { type, data } = req.body;
 
   if (type === 'payment') {
@@ -66,9 +83,10 @@ router.post('/webhook', async (req, res) => {
 
     try {
       // Buscar informações do pagamento no Mercado Pago
-      const payment = await mercadopago.payment.findById(paymentId);
-      const paymentStatus = payment.body.status;
-      const preferenceId = payment.body.preference_id;
+      const paymentClient = new Payment(client);
+      const paymentInfo = await paymentClient.get({ id: paymentId });
+      const paymentStatus = paymentInfo.status;
+      const preferenceId = paymentInfo.preference_id;
 
       // Atualizar a compra no banco de dados
       const purchase = await Purchase.findOne({ mercadoPagoPreferenceId: preferenceId });
@@ -82,7 +100,7 @@ router.post('/webhook', async (req, res) => {
         }
       }
     } catch (error) {
-      console.error(error);
+      console.error('Erro no webhook:', error);
     }
   }
 
