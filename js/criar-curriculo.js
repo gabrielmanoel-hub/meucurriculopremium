@@ -329,3 +329,57 @@
         
         // Inicializar a barra de progresso
         document.querySelector('.progress-bar').style.setProperty('--progress', '20%');
+
+//=================================================
+// Adicionar esta função para verificar limites antes de baixar
+async function downloadCurriculum() {
+  if (!isAuthenticated()) {
+    alert('Você precisa estar logado para baixar currículos');
+    showAuthModal();
+    return;
+  }
+  
+  const token = getToken();
+  const curriculumId = obterIdDoCurriculoAtual(); // Implemente esta função
+  
+  try {
+    const response = await fetch(`/api/curriculums/download/${curriculumId}`, {
+      method: 'POST',
+      headers: {
+        'x-auth-token': token
+      }
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok) {
+      // Atualizar contador de downloads
+      localStorage.setItem('downloadsRestantes', data.downloadsRestantes);
+      
+      // Gerar e baixar o PDF
+      gerarPDF(data.curriculum);
+    } else {
+      if (response.status === 403) {
+        // Limite de downloads atingido
+        const modelo = obterModeloAtual(); // Implemente esta função
+        const valor = obterValorDoModelo(modelo); // Implemente esta função
+        
+        const confirmar = confirm(
+          `Você atingiu o limite de downloads gratuitos. \nDeseja comprar o modelo ${modelo} por R$ ${valor.toFixed(2)}?`
+        );
+        
+        if (confirmar) {
+          iniciarPagamento(modelo, valor);
+        }
+      } else {
+        alert(data.msg || 'Erro ao baixar currículo');
+      }
+    }
+  } catch (error) {
+    console.error('Erro:', error);
+    alert('Erro de conexão. Tente novamente.');
+  }
+}
+
+// Modificar o evento de clique do botão de download
+document.getElementById('downloadBtn').addEventListener('click', downloadCurriculum);        
